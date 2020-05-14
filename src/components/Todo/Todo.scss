@@ -16,4 +16,18 @@
     text-decoration: line-through;
     color: $gray-600;
   }
+  & .btn-cancel,
+  & .btn-delete {
+    color: $danger;
+    &:hover {
+      color: darken($color: $danger, $amount: 10);
+    }
+  }
+
+  & .btn-save {
+    color: $success;
+    &:hover {
+      color: darken($color: $success, $amount: 10);
+    }
+  }
 }

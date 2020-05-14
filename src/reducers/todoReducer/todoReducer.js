@@ -4,7 +4,7 @@ import Todo from "models/Todo";
 import todos from "__mocks__/todos";
 
 const initialState: { todos: Array<Todo>, loading: boolean } = {
-  todos,
+  todos: {},
   loading: false,
 };
 
@@ -30,6 +30,7 @@ export default (state = initialState, action = {}) =>
       }
       case types.FETCH_TODOS_SUCCESS: {
         draft.todos = payload;
+        draft.loading = false;
         break;
       }
       case types.DO_TODO_SUCCESS: {

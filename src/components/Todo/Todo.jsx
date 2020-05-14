@@ -72,11 +72,11 @@ const Todo = ({
           </small>
         )}
       </div>
-      <div className="col-3">
+      <div className="col-3 d-flex" onClick={(e) => e.stopPropagation()}>
         {editMode ? (
           <>
             <button
-              className="btn btn-link"
+              className="btn btn-link btn-cancel mx-auto"
               onClick={() => {
                 setEditMode(false);
                 setTitleValue(title);
@@ -86,7 +86,7 @@ const Todo = ({
               <X />
             </button>
             <button
-              className="btn btn-link"
+              className="btn btn-link btn-save"
               onClick={() => {
                 setEditMode(false);
                 handleEdit(titleValue, dueToValue);
@@ -97,11 +97,14 @@ const Todo = ({
           </>
         ) : (
           <>
-            <button className="btn btn-link" onClick={() => setEditMode(true)}>
-              <Edit />
-            </button>
-            <button className="btn btn-link" onClick={handleDelete}>
+            <button className="btn btn-link btn-delete" onClick={handleDelete}>
               <Trash />
+            </button>
+            <button
+              className="btn btn-link ml-auto"
+              onClick={() => setEditMode(true)}
+            >
+              <Edit />
             </button>
           </>
         )}

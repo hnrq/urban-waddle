@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.13.0",
     "feather-icons": "^4.28.0",
+    "firebase": "^7.14.3",
     "flow-bin": "^0.124.0",
     "framer-motion": "^1.10.3",
     "immer": "^6.0.5",
@@ -23,6 +24,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-spinners": "^0.8.3",
     "react-toastify": "^6.0.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"

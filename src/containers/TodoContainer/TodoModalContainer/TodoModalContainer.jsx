@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Todo from "models/Todo";
 import { createTodoAction } from "actions/todoActions";
 import DatePicker from "react-datepicker";
 import ReactModal from "react-modal";
@@ -9,20 +8,13 @@ import ReactModal from "react-modal";
 import "./TodoModalContainer.scss";
 
 const TodoModalContainer = () => {
-  const [title, setTitle] = useState();
-  const [dueTo, setDueTo] = useState();
+  const [title, setTitle] = useState("");
+  const [dueTo, setDueTo] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   const createTodo = () => {
     if (title.trim().length > 0 && dueTo) {
-      dispatch(
-        createTodoAction({
-          title,
-          dueTo,
-          creationDate: new Date(),
-          done: false,
-        })
-      );
+      dispatch(createTodoAction(title, dueTo));
       history.goBack();
     }
   };
@@ -55,7 +47,7 @@ const TodoModalContainer = () => {
         <div className="modal-body">
           <form>
             <div className="form-group">
-              <label for="todo-title">Title:</label>
+              <label htmlFor="todo-title">Title:</label>
               <input
                 type="text"
                 className="form-control"
@@ -66,7 +58,7 @@ const TodoModalContainer = () => {
               />
             </div>
             <div className="form-group">
-              <label className="d-block" for="todo-due-to">
+              <label className="d-block" htmlFor="todo-due-to">
                 Due to
               </label>
               <DatePicker
