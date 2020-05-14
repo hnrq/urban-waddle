@@ -1,20 +1,21 @@
-import React from 'react';
-import TodoContainer from './TodoContainer';
-import { render, fireEvent } from '@testing-library/react';
-import todos from '__mocks__/todos';
+import React from "react";
+import TodoContainer from "./TodoContainer";
+import { render, fireEvent } from "@testing-library/react";
+import configureMockStore from "redux-mock-store";
+import todos from "__mocks__/todos";
+import { Provider } from "react-redux";
 
-const mockUseSelector = jest.fn((state) => { todoReducer: todos });
+const store = mockStore({ todosReducer: { magposts: todos } });
 
-jest.requireMock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useSelector: mockUseSelector 
-}));
-
-describe('TodoContainer test section', () => {
-  it('should render one Todo component for each todo provided', () => {
+describe("TodoContainer test section", () => {
+  it("should render one Todo component for each todo provided", () => {
     // prepare
-    render(<TodoContainer />);
+    render(
+      <Provider store={store}>
+        <TodoContainer />
+      </Provider>
+    );
     // execution
-    expect(document.getElementsByClassName('todo').length).toBe(6);
+    expect(document.getElementsByClassName("todo").length).toBe(6);
   });
-})
+});

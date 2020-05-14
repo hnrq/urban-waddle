@@ -111,5 +111,47 @@ describe("todoActions test section", () => {
       // execution
       expect(actions.fetchTodosRequest()).toEqual(expectedAction);
     });
+
+    it("should dispatch an action when sending a request to do a todo", () => {
+      // prepare
+      const expectedAction = { type: types.DO_TODO_REQUEST };
+      // execution
+      expect(actions.doTodoRequest()).toEqual(expectedAction);
+    });
+
+    it("should dispatch an action when a todo is successfully done", () => {
+      // prepare
+      const expectedAction = { type: types.DO_TODO_SUCCESS, payload: 1 };
+      // execution
+      expect(actions.doTodoSuccess(1)).toEqual(expectedAction);
+    });
+
+    it("should dispatch an action when failing to do a todo", () => {
+      // prepare
+      const expectedAction = { type: types.DO_TODO_FAILURE, error: "error" };
+      // execution
+      expect(actions.doTodoFailure("error")).toEqual(expectedAction);
+    });
+
+    it("should dispatch an action when", () => {
+      // prepare
+      const expectedAction = { type: types.UNDO_TODO_REQUEST };
+      // execution
+      expect(actions.undoTodoRequest()).toEqual(expectedAction);
+    });
+
+    it("should dispatch an action when", () => {
+      // prepare
+      const expectedAction = { type: types.UNDO_TODO_SUCCESS, payload: 1 };
+      // execution
+      expect(actions.undoTodoSuccess(1)).toEqual(expectedAction);
+    });
+
+    it("should dispatch an action when", () => {
+      // prepare
+      const expectedAction = { type: types.UNDO_TODO_FAILURE, error: "error" };
+      // execution
+      expect(actions.undoTodoFailure("error")).toEqual(expectedAction);
+    });
   });
 });

@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.todo-container {
+  background: white;
+  padding: 16px;
+  & .todo-header {
+    height: 80px;
+    top: 0;
+    position: sticky;
+  }
+  & .todos-list {
+    height: calc(100% - 64px);
+  }
+}

@@ -2,8 +2,15 @@
 @import "~bootstrap/scss/variables";
 
 .todo {
+  margin-top: 16px;
   &:hover {
     cursor: pointer;
+  }
+  & .title {
+    word-break: break-all;
+  }
+  & .creation-date {
+    font-size: 10px;
   }
   &.done {
     text-decoration: line-through;

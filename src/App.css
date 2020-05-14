@@ -1,0 +1,9 @@
+.app {
+  height: 100vh;
+}
+body {
+  overflow: hidden !important;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}

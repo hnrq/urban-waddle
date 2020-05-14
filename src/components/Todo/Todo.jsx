@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import type { Todo as TodoModel } from "models/Todo";
+import DatePicker from "react-datepicker";
 import classNames from "classnames";
-import { formatDistanceToNow } from "date-fns";
-import { Edit, X, Check } from "react-feather";
+import { formatDistanceToNow, format } from "date-fns";
+import { Edit, X, Check, Trash } from "react-feather";
 import "./Todo.scss";
 
 type Props = {
@@ -10,6 +11,8 @@ type Props = {
   handleClick: (any) => any,
   /** Function to be called when the todo is edited */
   handleEdit: (any) => any,
+  /** Function to be called when the todo is deleted */
+  handleDelete: (any) => any,
   /** CSS classes */
   classList: string | Array<string>,
   ...TodoModel,
@@ -19,59 +22,90 @@ const Todo = ({
   handleClick,
   title,
   creationDate,
+  dueTo,
   done,
   handleEdit,
+  handleDelete,
 }: Props) => {
   const [editMode, setEditMode] = useState(false);
-  const [value, setValue] = useState(title);
+  const [titleValue, setTitleValue] = useState(title);
+  const [dueToValue, setDueToValue] = useState(dueTo);
   return (
     <div
-      className={classNames("todo d-flex align-items-center", { done })}
+      className={classNames("todo row align-items-center", { done })}
       onClick={handleClick}
       tabIndex="0"
     >
-      {!editMode && <input type="checkbox" className="mx-3" checked={done} />}
-      <div className="d-flex flex-column">
+      <div className="col-1">
+        {!editMode && (
+          <input
+            type="checkbox"
+            className="mx-3"
+            checked={done}
+            onChange={() => {}}
+          />
+        )}
+      </div>
+      <div className="col-8 flex-column">
+        <small className="creation-date text-muted">
+          Created {formatDistanceToNow(creationDate)} ago
+        </small>
         {editMode ? (
           <input
-            value={value}
-            className="form-control"
+            value={titleValue}
+            className="form-control mb-1"
             type="text"
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setTitleValue(e.target.value)}
           />
         ) : (
           <h3 className="title">{title}</h3>
         )}
-        <span className="creation-date">
-          Created {formatDistanceToNow(creationDate)} ago
-        </span>
+        {editMode ? (
+          <DatePicker
+            selected={dueToValue}
+            className="form-control"
+            onChange={setDueToValue}
+          />
+        ) : (
+          <small className="due-to mt-2 text-muted">
+            Due to {format(dueTo, "dd/MM/yyyy")}
+          </small>
+        )}
       </div>
-      {editMode ? (
-        <div className="edit-actions ml-auto d-flex">
-          <button className="btn btn-link" onClick={() => setEditMode(false)}>
-            <X />
-          </button>
-          <button
-            className="btn btn-link"
-            onClick={() => {
-              setEditMode(false);
-              handleEdit(value);
-            }}
-          >
-            <Check />
-          </button>
-        </div>
-      ) : (
-        <button
-          className="btn btn-link ml-auto"
-          onClick={() => {
-            setValue(title);
-            setEditMode(true);
-          }}
-        >
-          <Edit />
-        </button>
-      )}
+      <div className="col-3">
+        {editMode ? (
+          <>
+            <button
+              className="btn btn-link"
+              onClick={() => {
+                setEditMode(false);
+                setTitleValue(title);
+                setDueToValue(dueTo);
+              }}
+            >
+              <X />
+            </button>
+            <button
+              className="btn btn-link"
+              onClick={() => {
+                setEditMode(false);
+                handleEdit(titleValue, dueToValue);
+              }}
+            >
+              <Check />
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="btn btn-link" onClick={() => setEditMode(true)}>
+              <Edit />
+            </button>
+            <button className="btn btn-link" onClick={handleDelete}>
+              <Trash />
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

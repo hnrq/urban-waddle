@@ -32,6 +32,14 @@ export default (state = initialState, action = {}) =>
         draft.todos = payload;
         break;
       }
+      case types.DO_TODO_SUCCESS: {
+        draft.todos[payload].done = true;
+        break;
+      }
+      case types.UNDO_TODO_SUCCESS: {
+        draft.todos[payload].done = false;
+        break;
+      }
       default:
         break;
     }
