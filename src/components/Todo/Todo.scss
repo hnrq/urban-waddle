@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.todo {
+  &:hover {
+    cursor: pointer;
+  }
+  &.done {
+    text-decoration: line-through;
+    color: $gray-600;
+  }
+}
