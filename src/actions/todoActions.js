@@ -2,7 +2,6 @@ import * as types from "types/todo";
 import type { Todo } from "models/Todo";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { firestore } from "firebase";
 import firebase from "firebaseConfig";
 
 export const createTodoAction = (title: String, dueTo: Date) => async (

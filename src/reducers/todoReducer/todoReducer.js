@@ -1,7 +1,6 @@
 import { produce } from "immer";
 import * as types from "types/todo";
 import Todo from "models/Todo";
-import todos from "__mocks__/todos";
 
 const initialState: { todos: Array<Todo>, loading: boolean } = {
   todos: {},

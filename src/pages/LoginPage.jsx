@@ -1,5 +1,6 @@
 import React from "react";
+import { LoginContainer } from "containers/LoginContainer";
 
-const LoginPage = () => <h1>JooJ</h1>;
+const LoginPage = () => <LoginContainer />;
 
 export default LoginPage;
