@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 import firebase from "firebaseConfig";
 
 export const createTodoAction = (title: String, dueTo: Date) => async (
-  dispatch
+  dispatch,
+  getState
 ) => {
+  const { authReducer: user } = getState();
   dispatch(createTodoRequest());
   try {
     const todo = {
@@ -15,7 +17,11 @@ export const createTodoAction = (title: String, dueTo: Date) => async (
       creationDate: new Date(),
       done: false,
     };
-    const todoRef = await firebase.db.collection("todos").add(todo);
+    const todoRef = await firebase.db
+      .collection("users")
+      .doc(user.uid)
+      .collection("todos")
+      .add(todo);
     dispatch(createTodoSuccess({ ...todo, id: todoRef.id }));
     toast.success("Todo successfully created.");
   } catch (error) {
@@ -36,10 +42,13 @@ export const createTodoFailure = (error: AxiosError) => ({
 
 export const createTodoRequest = () => ({ type: types.CREATE_TODO_REQUEST });
 
-export const updateTodoAction = (todo: Todo) => async (dispatch) => {
+export const updateTodoAction = (todo: Todo) => async (dispatch, getState) => {
+  const { authReducer: user } = getState();
   dispatch(updateTodoRequest());
   try {
     await firebase.db
+      .collection("users")
+      .doc(user.uid)
       .collection("todos")
       .doc(todo.id)
       .update({ title: todo.title, dueTo: todo.dueTo });
@@ -64,10 +73,16 @@ export const updateTodoFailure = (error: AxiosError) => ({
 
 export const updateTodoRequest = () => ({ type: types.UPDATE_TODO_REQUEST });
 
-export const deleteTodoAction = (id: string) => async (dispatch) => {
+export const deleteTodoAction = (id: string) => async (dispatch, getState) => {
+  const { authReducer: user } = getState();
   dispatch(deleteTodoRequest());
   try {
-    await firebase.db.collection("todos").doc(id).delete();
+    await firebase.db
+      .collection("users")
+      .doc(user.uid)
+      .collection("todos")
+      .doc(id)
+      .delete();
     toast.success("Todo successfully deleted.");
     dispatch(deleteTodoSuccess(id));
   } catch (error) {
@@ -87,11 +102,19 @@ export const deleteTodoFailure = (error: AxiosError) => ({
 
 export const deleteTodoRequest = () => ({ type: types.DELETE_TODO_REQUEST });
 
-export const fetchTodosAction = (todos: Array<Todo>) => async (dispatch) => {
+export const fetchTodosAction = (userUid: string) => async (
+  dispatch,
+  getState
+) => {
+  const { authReducer: user } = getState();
   dispatch(fetchTodosRequest());
   try {
     const queryResult = {};
-    const querySnapshot = await firebase.db.collection("todos").get();
+    const querySnapshot = await firebase.db
+      .collection("users")
+      .doc(user.uid || userUid)
+      .collection("todos")
+      .get();
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       queryResult[doc.id] = {
@@ -123,10 +146,16 @@ export const fetchTodosRequest = () => ({ type: types.FETCH_TODOS_REQUEST });
 
 export const doTodoRequest = () => ({ type: types.DO_TODO_REQUEST });
 
-export const doTodoAction = (id: string) => async (dispatch) => {
+export const doTodoAction = (id: string) => async (dispatch, getState) => {
+  const { authReducer: user } = getState();
   dispatch(doTodoRequest(id));
   try {
-    await firebase.db.collection("todos").doc(id).update({ done: true });
+    await firebase.db
+      .collection("users")
+      .doc(user.uid)
+      .collection("todos")
+      .doc(id)
+      .update({ done: true });
     dispatch(doTodoSuccess(id));
   } catch (error) {
     toast.error("Error when doing to-do.");
@@ -146,10 +175,16 @@ export const doTodoFailure = (error) => ({
 
 export const undoTodoRequest = () => ({ type: types.UNDO_TODO_REQUEST });
 
-export const undoTodoAction = (id: string) => async (dispatch) => {
+export const undoTodoAction = (id: string) => async (dispatch, getState) => {
+  const { authReducer: user } = getState();
   dispatch(undoTodoRequest(id));
   try {
-    await firebase.db.collection("todos").doc(id).update({ done: true });
+    await firebase.db
+      .collection("users")
+      .doc(user.uid)
+      .collection("todos")
+      .doc(id)
+      .update({ done: false });
     dispatch(undoTodoSuccess(id));
   } catch (error) {
     toast.error("Error when undoing to-do.");

@@ -9,8 +9,10 @@ export default (state = initialState, action = {}) =>
     switch (action.type) {
       case LOGIN_SUCCESS:
         draft = payload;
+        break;
       case LOGOUT_SUCCESS:
         draft = initialState;
+        break;
       default:
         break;
     }

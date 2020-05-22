@@ -3,7 +3,7 @@ import { HashRouter, Switch, Route } from "react-router-dom";
 import HomePage from "pages/HomePage";
 import LoginPage from "pages/LoginPage";
 import { Provider } from "react-redux";
-import configureStore from "configureStore";
+import store from "configureStore";
 import "./App.css";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -12,16 +12,22 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import TodoModalContainer from "containers/TodoModalContainer/TodoModalContainer";
 import { createHashHistory } from "history";
+import { loginSuccess } from "actions/authActions";
+import { fetchTodosAction } from "actions/todoActions";
 import { auth } from "firebaseConfig";
 
 const customHistory = createHashHistory();
 
-auth.onAuthStateChanged((user) =>
-  user ? customHistory.push("/") : customHistory.push("/login")
-);
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    customHistory.push("/");
+    store.dispatch(loginSuccess(user));
+    store.dispatch(fetchTodosAction(user.uid));
+  } else customHistory.push("/login");
+});
 
 const App = () => (
-  <Provider store={configureStore}>
+  <Provider store={store}>
     <ToastContainer />
     <HashRouter history={customHistory}>
       <div className="app jumbotron pt-3">

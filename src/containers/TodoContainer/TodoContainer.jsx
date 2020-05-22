@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { Todo } from "components/Todo";
@@ -11,7 +11,6 @@ import {
   deleteTodoAction,
   undoTodoAction,
   doTodoAction,
-  fetchTodosAction,
 } from "actions/todoActions";
 import { logoutAction } from "actions/authActions";
 
@@ -19,10 +18,6 @@ const TodoContainer = () => {
   const { todos, loading } = useSelector(({ todoReducer }) => todoReducer);
   const dispatch = useDispatch();
   const history = useHistory();
-  useEffect(() => {
-    dispatch(fetchTodosAction());
-  }, [dispatch]);
-
   useAuth(useCallback(() => history.push("/login"), [history]));
 
   return (
