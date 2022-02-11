@@ -14,7 +14,7 @@
     "flow-bin": "^0.124.0",
     "framer-motion": "^1.10.3",
     "immer": "^6.0.5",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-datepicker": "^2.15.0",
     "react-dom": "^16.13.1",
